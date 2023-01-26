@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 # Import discord.py. Allows access to Discord's API.
 import discord
 
