@@ -3,9 +3,6 @@
 # Import discord.py. Allows access to Discord's API.
 import discord
 
-# 讓服務不要自動終止
-from webserver import keep_alive
-
 # Import the os module.
 import os
 
@@ -82,7 +79,6 @@ async def on_reaction_add(reaction, user):
 	# # Sends a message to the channel using the Context object.
 	# await ctx.channel.send(response)
 
-keep_alive()
 
 # Executes the bot with the specified token. Token has been removed and used just as an example.
 bot.run(DISCORD_TOKEN)
