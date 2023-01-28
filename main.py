@@ -3,6 +3,9 @@
 # Import discord.py. Allows access to Discord's API.
 import discord
 
+# 讓服務不要自動終止
+from webserver import keep_alive
+
 # Import the os module.
 import os
 
@@ -11,6 +14,7 @@ from dotenv import load_dotenv
 
 # Import commands from the discord.ext module.
 from discord.ext import commands
+
 
 # Loads the .env file that resides on the same level as the script.
 load_dotenv()
@@ -77,6 +81,8 @@ async def on_reaction_add(reaction, user):
 
 	# # Sends a message to the channel using the Context object.
 	# await ctx.channel.send(response)
+
+keep_alive()
 
 # Executes the bot with the specified token. Token has been removed and used just as an example.
 bot.run(DISCORD_TOKEN)
