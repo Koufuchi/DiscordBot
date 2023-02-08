@@ -28,7 +28,7 @@ async def on_message(message):
 
     prefix = message.content[0:5]
 
-    if prefix == '!小孤獨5':
+    if prefix == '!小孤獨 ':
         print(message.content)
 
         sendMsg.append(message.content[5:])
