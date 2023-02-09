@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*- 
 
+from aitextgen import aitextgen
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import openai
 import os
-import re
+
 
 
 # Loads the .env file that resides on the same level as the script.
@@ -28,6 +29,7 @@ async def on_message(message):
 
     prefix = message.content[0:5]
 
+    # 連接 openai api
     if prefix == '!小孤獨 ':
         print(message.content)
 
@@ -47,6 +49,16 @@ async def on_message(message):
 
         # 傳訊息到聊天室
         await message.channel.send(response.choices[0].text)
+
+    # 使用本地 aitextgen 
+    if prefix == '!測試用 ':
+        # Without any parameters, aitextgen() will download, cache, and load the 124M GPT-2 "small" model
+        ai = aitextgen()
+
+        msg = ai.generate(n=3, prompt="I believe in unicorns because", max_length=100)
+        ai.generate_to_file(n=10, prompt="I believe in unicorns because", max_length=100, temperature=1.2)
+
+        await message.channel.send(msg)
 
     # Includes the commands for the bot. Without this line, you cannot trigger your commands.
     await bot.process_commands(message)
