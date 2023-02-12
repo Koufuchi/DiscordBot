@@ -52,13 +52,22 @@ async def on_message(message):
 
     # 使用本地 aitextgen 
     if prefix == '!測試用 ':
+        print(message.content)
+        
         # Without any parameters, aitextgen() will download, cache, and load the 124M GPT-2 "small" model
-        ai = aitextgen()
+        ai = aitextgen(
+            to_gpu = True,
+            model = "EleutherAI/gpt-neo-125M" # https://huggingface.co/EleutherAI
+        )
 
-        msg = ai.generate(n=3, prompt="I believe in unicorns because", max_length=100)
-        ai.generate_to_file(n=10, prompt="I believe in unicorns because", max_length=100, temperature=1.2)
+        msg = ai.generate(
+            n = 1, # 文本生成的數量
+            prompt = "I believe in unicorns because",
+            max_length = 1024,  # 生成文本的長度（default=200；GPT-2 最長為 1024；GPT-neo 最長為 2048）
+            temperature = 0.5 # default: 0.7 越大越隨機
+        )
 
-        await message.channel.send(msg)
+        await message.channel.send(msg + message.content)
 
     # Includes the commands for the bot. Without this line, you cannot trigger your commands.
     await bot.process_commands(message)
