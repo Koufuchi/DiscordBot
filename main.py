@@ -41,10 +41,10 @@ async def on_message(message):
             prompt = prompt + '\n' + i
 
         response = openai.Completion.create(
-        	model="text-davinci-003",
-        	prompt=message.content[5:],
-        	temperature=0, # 隨機文字組合，範圍 0～1，預設 0.5，0 表示不隨機，1 表示完全隨機。
-        	max_tokens=3900, # 希望 AI 回傳的最大字數
+        	model = "text-davinci-003",
+        	prompt = message.content[5:],
+        	temperature = 0, # 隨機文字組合，範圍 0～1，預設 0.5，0 表示不隨機，1 表示完全隨機。
+        	max_tokens = 3900, # 希望 AI 回傳的最大字數
         )
 
         # 傳訊息到聊天室
@@ -57,17 +57,18 @@ async def on_message(message):
         # Without any parameters, aitextgen() will download, cache, and load the 124M GPT-2 "small" model
         ai = aitextgen(
             to_gpu = True,
-            model = "EleutherAI/gpt-neo-125M" # https://huggingface.co/EleutherAI
+            #model = "EleutherAI/gpt-neo-125M", # https://huggingface.co/EleutherAI
+            tf_gpt2 = "355M"
         )
 
-        msg = ai.generate(
+        msg = ai.generate_one(
             n = 1, # 文本生成的數量
-            prompt = "I believe in unicorns because",
+            prompt = message.content[5:],
             max_length = 1024,  # 生成文本的長度（default=200；GPT-2 最長為 1024；GPT-neo 最長為 2048）
             temperature = 0.5 # default: 0.7 越大越隨機
         )
 
-        await message.channel.send(msg + message.content)
+        await message.channel.send(msg)
 
     # Includes the commands for the bot. Without this line, you cannot trigger your commands.
     await bot.process_commands(message)
